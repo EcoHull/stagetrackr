@@ -31,3 +31,35 @@ stage_assigning <- function(columns, data) {
       })
     )
 }
+
+last_observed_stage_table = function(data, last_observed_stage) {
+  data = subset(data, last_observed_stage != "no_stage_found")
+
+  n_total = nrow(data)
+
+  table = data |>
+    dplyr::group_by(last_observed_stage) |>
+    dplyr::count(name = "n") |>
+    dplyr::as_tibble()
+
+  table$percentage = (table[["n"]]/n_total)*100
+  table$cumulative = cumsum(table[["n"]])
+  table$remaining_n = n_total - table[["cumulative"]] + table[["n"]]
+  table$remaining_percentage = (table[["remaining_n"]] / n_total) * 100
+
+  return(table)
+}
+
+visualising_survival = function(data, stages, remaining) {
+  ggplot2::ggplot(data, ggplot2::aes(x = {{stages}}, y = {{remaining}})) +
+    ggplot2::geom_col() +
+    ggplot2::theme_classic()
+}
+
+visualising_distrubution = function(data, stage, factor = 1) {
+  ggplot2::ggplot(data, ggplot2::aes(x = {{factor}}, group = {{stage}})) +
+    ggplot2::labs(y = "Proportion", fill = deparse(substitute(stage)), x = deparse(substitute(factor))) +
+    ggplot2::geom_bar(ggplot2::aes(fill = {{stage}}), position = "fill", colour = "black") +
+    ggplot2::theme_classic()
+}
+
