@@ -89,8 +89,8 @@ last_observed_stage_table = function(data, last_observed_stage) {
 #'   "Stage4", 1, (1/5)*100, 4, 2, 40,
 #'   "Stage5", 1, (1/5)*100, 5, 1, 20
 #' )
-#' visualising_survival(data = stage_table, stages = last_observed_stage, remaining_percentage = remaining_percentage, remaining_number = remaining_n)
-#' visualising_survival(data = stage_table, stages = last_observed_stage, remaining_percentage = remaining_percentage)
+#' visualising_survival(stage_table, last_observed_stage, remaining_percentage, remaining_n)
+#' visualising_survival(stage_table, last_observed_stage, remaining_percentage)
 visualising_survival = function(data, stages, remaining_percentage, remaining_number = NULL) {
   remaining_per <- deparse(substitute(remaining_percentage))
   remaining_num <- deparse(substitute(remaining_number))
