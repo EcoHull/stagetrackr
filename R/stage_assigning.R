@@ -50,10 +50,18 @@ last_observed_stage_table = function(data, last_observed_stage) {
   return(table)
 }
 
-visualising_survival = function(data, stages, remaining) {
-  ggplot2::ggplot(data, ggplot2::aes(x = {{stages}}, y = {{remaining}})) +
-    ggplot2::geom_col() +
+visualising_survival = function(data, stages, remaining_percentage, remaining_number) {
+  remaining_per <- deparse(substitute(remaining_percentage))
+  remaining_num <- deparse(substitute(remaining_number))
+
+  ggplot2::ggplot(data, ggplot2::aes(x = {{stages}}, y = {{remaining_percentage}})) +
+    ggplot2::geom_col(colour = "black", fill = "lightgrey") +
+    ggplot2::geom_text(ggplot2::aes(label = paste0(.data[[remaining_per]], "%")), # Access with []
+                       y = 0, vjust = -0.5) +
+    ggplot2::geom_text(ggplot2::aes(label = ifelse(is.null({{remaining_number}}), "", paste0("( N = ",.data[[remaining_num]], ")"))), # Access with []
+                       y = 0, vjust = -2.5) +
     ggplot2::theme_classic()
+
 }
 
 visualising_distrubution = function(data, stage, factor = 1) {
