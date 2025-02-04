@@ -2,4 +2,6 @@
 
 export(last_observed_stage_table)
 export(stage_assigning)
+export(visualising_distribution)
+export(visualising_survival)
 import(ggplot2)

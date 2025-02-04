@@ -40,7 +40,7 @@ test_that("Checking final_observed_stage_tabe generation", {
 
 })
 
-assigned_data = dplyr::tribble(
+data_with_factor = dplyr::tribble(
   ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~last_observed_stage, ~AB,
   1, "01/01/2000", NA, NA, NA, NA, "Stage1", "A",
   2, "01/01/2000", "02/01/2000", NA, NA, NA, "Stage2", "A",
@@ -53,5 +53,5 @@ assigned_data = dplyr::tribble(
   3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Stage3", "B",
   4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4", "B",
   5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "B",
-  6, NA, NA, NA, NA, NA, "no_stage_found", "B",
+  6, NA, NA, NA, NA, NA, "no_stage_found", "B"
 )
