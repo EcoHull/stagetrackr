@@ -45,7 +45,8 @@ example_data = dplyr::tribble(
   6, NA, NA, NA, NA, NA,
 )
 
-stage_assigning(columns = example_stages, data = example_data)
+assigned_stages = stage_assigning(columns = example_stages, data = example_data)
+show(assigned_stages)
 #> # A tibble: 6 × 7
 #>      ID Stage1     Stage2     Stage3     Stage4     Stage5   last_observed_stage
 #>   <dbl> <chr>      <chr>      <chr>      <chr>      <chr>    <chr>              

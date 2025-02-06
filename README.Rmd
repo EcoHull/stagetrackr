@@ -49,8 +49,8 @@ example_data = dplyr::tribble(
   6, NA, NA, NA, NA, NA,
 )
 
-stage_assigning(columns = example_stages, data = example_data)
-
+assigned_stages = stage_assigning(columns = example_stages, data = example_data)
+show(assigned_stages)
 ```
 
 What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
