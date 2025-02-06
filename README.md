@@ -6,23 +6,55 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of stagetrackr is to …
+The goal of stagetrackr is to provide a range of tools to optimise
+working with data from species which develop through multiple life
+stages. It can automatically assign the last observed staged for
+individuals in experimental datasheets and plot graphs of: survival
+rates through development; distribution of last observed stages with the
+ability to specify factors which are separated for the purposes
+comparative analysis.
 
 ## Installation
 
 You can install the development version of stagetrackr like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+install.packages("devtools")
+devtools::install_github("EcoHull/stagetrackr")
 ```
 
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+The functions in this package are designed to be used in sequence
+depending on the questions being answered. But the base data relies on
+the recording of the dates that individuals move through developmental
+stages.
 
 ``` r
 library(stagetrackr)
-## basic example code
+
+example_stages = c("Stage1", "Stage2", "Stage3", "Stage4", "Stage5")
+
+example_data = dplyr::tribble(
+~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5,
+  1, "01/01/2000", NA, NA, NA, NA,
+  2, "01/01/2000", "02/01/2000", NA, NA, NA,
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA,
+  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA,
+  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000",
+  6, NA, NA, NA, NA, NA,
+)
+
+stage_assigning(columns = example_stages, data = example_data)
+#> # A tibble: 6 × 7
+#>      ID Stage1     Stage2     Stage3     Stage4     Stage5   last_observed_stage
+#>   <dbl> <chr>      <chr>      <chr>      <chr>      <chr>    <chr>              
+#> 1     1 01/01/2000 <NA>       <NA>       <NA>       <NA>     Stage1             
+#> 2     2 01/01/2000 02/01/2000 <NA>       <NA>       <NA>     Stage2             
+#> 3     3 01/01/2000 02/01/2000 03/01/2000 <NA>       <NA>     Stage3             
+#> 4     4 01/01/2000 02/01/2000 03/01/2000 04/01/2000 <NA>     Stage4             
+#> 5     5 01/01/2000 02/01/2000 03/01/2000 04/01/2000 05/01/2… Stage5             
+#> 6     6 <NA>       <NA>       <NA>       <NA>       <NA>     no_stage_found
 ```
 
 What is special about using `README.Rmd` instead of just `README.md`?
