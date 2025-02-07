@@ -137,7 +137,7 @@ data_with_factor = dplyr::tribble(
   6, NA, NA, NA, NA, NA, "no_stage_found", "Female"
 )
 
-data_with_factor
+show(data_with_factor)
 #> # A tibble: 12 × 8
 #>       ID Stage1     Stage2     Stage3    Stage4 Stage5 last_observed_stage Sex  
 #>    <dbl> <chr>      <chr>      <chr>     <chr>  <chr>  <chr>               <chr>
