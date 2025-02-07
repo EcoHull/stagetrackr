@@ -122,22 +122,39 @@ visualising_distribution(data = assigned_stages, stage = last_observed_stage)
 
 # With factors
 data_with_factor = dplyr::tribble(
-  ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~last_observed_stage, ~AB,
-  1, "01/01/2000", NA, NA, NA, NA, "Stage1", "A",
-  2, "01/01/2000", "02/01/2000", NA, NA, NA, "Stage2", "A",
-  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Stage3", "A",
-  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4", "A",
-  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "A",
-  6, NA, NA, NA, NA, NA, "no_stage_found", "A",
-  1, "01/01/2000", NA, NA, NA, NA, "Stage1", "B",
-  2, "01/01/2000", "02/01/2000", NA, NA, NA, "Stage2", "B",
-  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Stage3", "B",
-  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4", "B",
-  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "B",
-  6, NA, NA, NA, NA, NA, "no_stage_found", "B"
+  ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~last_observed_stage, ~Sex,
+  1, "01/01/2000", NA, NA, NA, NA, "Stage1", "Male",
+  2, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Stage3", "Male",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Stage3", "Male",
+  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4", "Male",
+  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "Male",
+  6, NA, NA, NA, NA, NA, "no_stage_found", "Male",
+  1, "01/01/2000", NA, NA, NA, NA, "Stage1", "Female",
+  2, "01/01/2000", "02/01/2000", NA, NA, NA, "Stage2", "Female",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Stage3", "Female",
+  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "Female",
+  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "Female",
+  6, NA, NA, NA, NA, NA, "no_stage_found", "Female"
 )
 
-visualising_distribution(data = data_with_factor, stage = last_observed_stage, factor = AB)
+show(data_with_factor)
+#> # A tibble: 12 × 8
+#>       ID Stage1     Stage2     Stage3    Stage4 Stage5 last_observed_stage Sex  
+#>    <dbl> <chr>      <chr>      <chr>     <chr>  <chr>  <chr>               <chr>
+#>  1     1 01/01/2000 <NA>       <NA>      <NA>   <NA>   Stage1              Male 
+#>  2     2 01/01/2000 02/01/2000 03/01/20… <NA>   <NA>   Stage3              Male 
+#>  3     3 01/01/2000 02/01/2000 03/01/20… <NA>   <NA>   Stage3              Male 
+#>  4     4 01/01/2000 02/01/2000 03/01/20… 04/01… <NA>   Stage4              Male 
+#>  5     5 01/01/2000 02/01/2000 03/01/20… 04/01… 05/01… Stage5              Male 
+#>  6     6 <NA>       <NA>       <NA>      <NA>   <NA>   no_stage_found      Male 
+#>  7     1 01/01/2000 <NA>       <NA>      <NA>   <NA>   Stage1              Fema…
+#>  8     2 01/01/2000 02/01/2000 <NA>      <NA>   <NA>   Stage2              Fema…
+#>  9     3 01/01/2000 02/01/2000 03/01/20… <NA>   <NA>   Stage3              Fema…
+#> 10     4 01/01/2000 02/01/2000 03/01/20… 04/01… 05/01… Stage5              Fema…
+#> 11     5 01/01/2000 02/01/2000 03/01/20… 04/01… 05/01… Stage5              Fema…
+#> 12     6 <NA>       <NA>       <NA>      <NA>   <NA>   no_stage_found      Fema…
+
+visualising_distribution(data = data_with_factor, stage = last_observed_stage, factor = Sex)
 ```
 
 <img src="man/figures/README-visualising_distribution() example with factor-1.png" width="100%" />

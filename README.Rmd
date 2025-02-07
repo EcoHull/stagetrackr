@@ -75,8 +75,33 @@ visualising_survival(data = data_table, stages = last_observed_stage, remaining_
 
 The distribution of the last observed stages can also be visualised. This used the `visualising_distribution()` function which is designed to work with the output of the `stage_assigning()` function. This requires the specification of the data frame, the column containing the assigned stages, and optionally a factor column. If a factor column is specified, a new bar will be generated for each factor.
 
-``` {r visualising_distrubution() example}
+``` {r visualising_distrubution() no factor example}
 
-visualising_distribution(assigned_stages)
+# No factors
+
+visualising_distribution(data = assigned_stages, stage = last_observed_stage)
+
+```
+
+``` {r visualising_distribution() example with factor}
+
+# With factors
+data_with_factor = dplyr::tribble(
+  ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~last_observed_stage, ~AB,
+  1, "01/01/2000", NA, NA, NA, NA, "Stage1", "A",
+  2, "01/01/2000", "02/01/2000", NA, NA, NA, "Stage2", "A",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Stage3", "A",
+  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4", "A",
+  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "A",
+  6, NA, NA, NA, NA, NA, "no_stage_found", "A",
+  1, "01/01/2000", NA, NA, NA, NA, "Stage1", "B",
+  2, "01/01/2000", "02/01/2000", NA, NA, NA, "Stage2", "B",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Stage3", "B",
+  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4", "B",
+  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "B",
+  6, NA, NA, NA, NA, NA, "no_stage_found", "B"
+)
+
+visualising_distribution(data = data_with_factor, stage = last_observed_stage, factor = AB)
 
 ```
