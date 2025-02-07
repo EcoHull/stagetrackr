@@ -4,7 +4,7 @@
 \alias{visualising_distribution}
 \title{Final observed stage distribution graph generation}
 \usage{
-visualising_distribution(data, stage, factor = 1)
+visualising_distribution(data, stage, factor = FALSE)
 }
 \arguments{
 \item{data}{Data frame containing a column with the last observed stage such as those produced by stage_assigning()}

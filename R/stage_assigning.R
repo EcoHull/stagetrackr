@@ -145,9 +145,19 @@ visualising_survival = function(data, stages, remaining_percentage, remaining_nu
 #'  12, NA, NA, NA, NA, NA, "no_stage_found", "B"
 #' )
 #' visualising_distribution(data_with_factor, last_observed_stage, AB)
-visualising_distribution = function(data, stage, factor = 1) {
-  ggplot2::ggplot(data, ggplot2::aes(x = {{factor}}, group = {{stage}})) +
+visualising_distribution = function(data, stage, factor = FALSE) {
+
+  fct = deparse(substitute(factor))
+
+  plot = ggplot2::ggplot(data, ggplot2::aes(x = {{factor}}, group = {{stage}})) +
     ggplot2::labs(y = "Proportion", fill = deparse(substitute(stage)), x = deparse(substitute(factor))) +
     ggplot2::geom_bar(ggplot2::aes(fill = {{stage}}), position = "fill", colour = "black") +
     ggplot2::theme_classic()
+
+  if (fct == "FALSE") {
+    plot = plot +
+      scale_x_discrete(labels = "") +
+      ggplot2::labs(x = "Distribution of last observed stages")
+  }
+  plot
 }

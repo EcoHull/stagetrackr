@@ -100,7 +100,7 @@ remaining) at each stage of development.
 visualising_survival(data = data_table, stages = last_observed_stage, remaining_percentage = remaining_percentage, remaining_number = remaining_n)
 ```
 
-<img src="man/figures/README-visualising_survival() example-1.png" width="100%" />
+<img src="man/figures/README-visualising_survival_example-1.png" width="100%" />
 
 The distribution of the last observed stages can also be visualised.
 This used the `visualising_distribution()` function which is designed to
@@ -116,7 +116,7 @@ a new bar will be generated for each factor.
 visualising_distribution(data = assigned_stages, stage = last_observed_stage)
 ```
 
-<img src="man/figures/README-visualising_distrubution() no factor example-1.png" width="100%" />
+<img src="man/figures/README-visualising_distrubution_no_factor_example-1.png" width="100%" />
 
 ``` r
 
@@ -159,4 +159,4 @@ show(data_with_factor)
 visualising_distribution(data = data_with_factor, stage = last_observed_stage, factor = Sex)
 ```
 
-<img src="man/figures/README-visualising_distribution() example with factor-1.png" width="100%" />
+<img src="man/figures/README-visualising_distribution_example_with_factor-1.png" width="100%" />

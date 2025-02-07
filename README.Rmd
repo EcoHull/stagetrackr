@@ -59,7 +59,7 @@ Following the use of `stage_assigning()` a data table can be created using `last
 
 This function is designed to work with the output of `assigned_stages()` but will alwo work with any dataset with one row per individual and a column spefying final recorded developmental stage.
 
-```{r stage_assigning() example}
+```{r stage_assigning_example}
 
 data_table = last_observed_stage_table(data = assigned_stages, last_observed_stage = "last_observed_stage")
 show(data_table)
@@ -67,7 +67,7 @@ show(data_table)
 
 The `visualisig_survival()` function is designed to work with the output of `last_observed_stage_table()`. It requires the specification of the data frame, remaining percentage column and optionally the remaining number column (if it is not provided it will not show the N value). This functions generates a bar chart with a bar for each developmental stage providing details of the remaining percentage (and optionally the N remaining) at each stage of development.
 
-```{r visualising_survival() example}
+```{r visualising_survival_example}
 
 visualising_survival(data = data_table, stages = last_observed_stage, remaining_percentage = remaining_percentage, remaining_number = remaining_n)
 
@@ -75,7 +75,7 @@ visualising_survival(data = data_table, stages = last_observed_stage, remaining_
 
 The distribution of the last observed stages can also be visualised. This used the `visualising_distribution()` function which is designed to work with the output of the `stage_assigning()` function. This requires the specification of the data frame, the column containing the assigned stages, and optionally a factor column. If a factor column is specified, a new bar will be generated for each factor.
 
-```{r visualising_distrubution() no factor example}
+```{r visualising_distrubution_no_factor_example}
 
 # No factors
 
@@ -83,7 +83,7 @@ visualising_distribution(data = assigned_stages, stage = last_observed_stage)
 
 ```
 
-```{r example factorised data}
+```{r example_factorised_data}
 
 # With factors
 data_with_factor = dplyr::tribble(
@@ -105,7 +105,7 @@ data_with_factor = dplyr::tribble(
 show(data_with_factor)
 ```
 
-```{r visualising_distribution() example with factor}
+```{r visualising_distribution_example_with_factor}
 visualising_distribution(data = data_with_factor, stage = last_observed_stage, factor = Sex)
 
 ```
