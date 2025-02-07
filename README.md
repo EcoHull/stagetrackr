@@ -120,7 +120,7 @@ visualising_distribution(data = assigned_stages, stage = last_observed_stage)
 
 ``` r
 
-# With factors
+# With factors specified
 data_with_factor = dplyr::tribble(
   ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~last_observed_stage, ~Sex,
   1, "01/01/2000", NA, NA, NA, NA, "Stage1", "Male",

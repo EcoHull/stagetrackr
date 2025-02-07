@@ -77,7 +77,7 @@ The distribution of the last observed stages can also be visualised. This used t
 
 ```{r visualising_distrubution_no_factor_example, fig.height=6, fig.width=5}
 
-# No factors
+# No factor visualisation
 
 visualising_distribution(data = assigned_stages, stage = last_observed_stage)
 
@@ -85,7 +85,7 @@ visualising_distribution(data = assigned_stages, stage = last_observed_stage)
 
 ```{r example_factorised_data}
 
-# With factors
+# With factors specified
 data_with_factor = dplyr::tribble(
   ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~last_observed_stage, ~Sex,
   1, "01/01/2000", NA, NA, NA, NA, "Stage1", "Male",
