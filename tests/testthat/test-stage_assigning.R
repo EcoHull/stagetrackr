@@ -18,7 +18,7 @@ assigned_data = dplyr::tribble(
   4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4",
   5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5",
   6, NA, NA, NA, NA, NA, "no_stage_found"
-)
+) |> dplyr::mutate(last_observed_stage = factor(last_observed_stage, levels = example_stages))
 
 test_that("stage_assigning() finds the latest stage", {
   expect_equal(stage_assigning(example_stages, example_data), assigned_data)
@@ -37,7 +37,7 @@ test_that("Checking final_observed_stage_tabe generation", {
   stage_table[["last_observed_stage"]] = factor(stage_table[["last_observed_stage"]], levels = example_stages)
 
   data = stage_assigning(data = example_data, columns = example_stages)
-  expect_equal(last_observed_stage_table(data, "last_observed_stage", example_stages), stage_table)
+  expect_equal(last_observed_stage_table(data, "last_observed_stage"), stage_table)
 
 })
 

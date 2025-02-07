@@ -34,7 +34,7 @@ devtools::install_github("EcoHull/stagetrackr")
 
 The functions in this package are designed to be used in sequence depending on the questions being answered. But the base data relies on the recording of the dates that individuals move through developmental stages.
 
-The first stage of stagetrackr analysis is to use the `assigned_stages()` function. This function takes the data frame and the stage order and returns the last observed developmental stage seen in each row.
+The first stage of stagetrackr analysis is to use the `assigned_stages()` function. This function takes the data frame and the stage order and returns the last observed developmental stage seen in each row, creating a column which is a factor with levels dictated by the provided columns.
 
 ```{r example}
 library(stagetrackr)

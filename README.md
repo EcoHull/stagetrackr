@@ -33,7 +33,8 @@ stages.
 The first stage of stagetrackr analysis is to use the
 `assigned_stages()` function. This function takes the data frame and the
 stage order and returns the last observed developmental stage seen in
-each row.
+each row, creating a column which is a factor with levels dictated by
+the provided columns.
 
 ``` r
 library(stagetrackr)
@@ -54,13 +55,13 @@ assigned_stages = stage_assigning(columns = example_stages, data = example_data)
 show(assigned_stages)
 #> # A tibble: 6 × 7
 #>      ID Stage1     Stage2     Stage3     Stage4     Stage5   last_observed_stage
-#>   <dbl> <chr>      <chr>      <chr>      <chr>      <chr>    <chr>              
+#>   <dbl> <chr>      <chr>      <chr>      <chr>      <chr>    <fct>              
 #> 1     1 01/01/2000 <NA>       <NA>       <NA>       <NA>     Stage1             
 #> 2     2 01/01/2000 02/01/2000 <NA>       <NA>       <NA>     Stage2             
 #> 3     3 01/01/2000 02/01/2000 03/01/2000 <NA>       <NA>     Stage3             
 #> 4     4 01/01/2000 02/01/2000 03/01/2000 04/01/2000 <NA>     Stage4             
 #> 5     5 01/01/2000 02/01/2000 03/01/2000 04/01/2000 05/01/2… Stage5             
-#> 6     6 <NA>       <NA>       <NA>       <NA>       <NA>     no_stage_found
+#> 6     6 <NA>       <NA>       <NA>       <NA>       <NA>     <NA>
 ```
 
 Following the use of `stage_assigning()` a data table can be created
