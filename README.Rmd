@@ -34,6 +34,8 @@ devtools::install_github("EcoHull/stagetrackr")
 
 The functions in this package are designed to be used in sequence depending on the questions being answered. But the base data relies on the recording of the dates that individuals move through developmental stages.
 
+The first stage of stagetrackr analysis is to use the `assigned_stages()` function. This function takes the data frame and the stage order and returns the last observed developmental stage seen in each row.
+
 ```{r example}
 library(stagetrackr)
 
@@ -53,18 +55,28 @@ assigned_stages = stage_assigning(columns = example_stages, data = example_data)
 show(assigned_stages)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+Following the use of `stage_assigning()` a data table can be created using `last_observed_stage_table()` this functions requires the specifying of the data frame and the column containing the last observed stages and returns information about the stage distribution.
 
-```{r cars}
-summary(cars)
+This function is designed to work with the output of `assigned_stages()` but will alwo work with any dataset with one row per individual and a column spefying final recorded developmental stage.
+
+```{r stage_assigning() example}
+
+data_table = last_observed_stage_table(data = assigned_stages, last_observed_stage = "last_observed_stage")
+show(data_table)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+The `visualisig_survival()` function is designed to work with the output of `last_observed_stage_table()`. It requires the specification of the data frame, remaining percentage column and optionally the remaining number column (if it is not provided it will not show the N value). This functions generates a bar chart with a bar for each developmental stage providing details of the remaining percentage (and optionally the N remaining) at each stage of development.
 
-You can also embed plots, for example:
+```{r visualising_survival() example}
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+visualising_survival(data = data_table, stages = last_observed_stage, remaining_percentage = remaining_percentage, remaining_number = remaining_n)
+
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+The distribution of the last observed stages can also be visualised. This used the `visualising_distribution()` function which is designed to work with the output of the `stage_assigning()` function. This requires the specification of the data frame, the column containing the assigned stages, and optionally a factor column. If a factor column is specified, a new bar will be generated for each factor.
+
+``` {r visualising_distrubution() example}
+
+visualising_distribution(assigned_stages)
+
+```

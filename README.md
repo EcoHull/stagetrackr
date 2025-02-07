@@ -30,6 +30,11 @@ depending on the questions being answered. But the base data relies on
 the recording of the dates that individuals move through developmental
 stages.
 
+The first stage of stagetrackr analysis is to use the
+`assigned_stages()` function. This function takes the data frame and the
+stage order and returns the last observed developmental stage seen in
+each row.
+
 ``` r
 library(stagetrackr)
 
@@ -58,26 +63,81 @@ show(assigned_stages)
 #> 6     6 <NA>       <NA>       <NA>       <NA>       <NA>     no_stage_found
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+Following the use of `stage_assigning()` a data table can be created
+using `last_observed_stage_table()` this functions requires the
+specifying of the data frame and the column containing the last observed
+stages and returns information about the stage distribution.
+
+This function is designed to work with the output of `assigned_stages()`
+but will alwo work with any dataset with one row per individual and a
+column spefying final recorded developmental stage.
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+
+data_table = last_observed_stage_table(data = assigned_stages, last_observed_stage = "last_observed_stage")
+show(data_table)
+#> # A tibble: 5 × 6
+#>   last_observed_stage     n percentage cumulative remaining_n
+#>   <chr>               <int>      <dbl>      <int>       <int>
+#> 1 Stage1                  1         20          1           5
+#> 2 Stage2                  1         20          2           4
+#> 3 Stage3                  1         20          3           3
+#> 4 Stage4                  1         20          4           2
+#> 5 Stage5                  1         20          5           1
+#> # ℹ 1 more variable: remaining_percentage <dbl>
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+The `visualisig_survival()` function is designed to work with the output
+of `last_observed_stage_table()`. It requires the specification of the
+data frame, remaining percentage column and optionally the remaining
+number column (if it is not provided it will not show the N value). This
+functions generates a bar chart with a bar for each developmental stage
+providing details of the remaining percentage (and optionally the N
+remaining) at each stage of development.
 
-You can also embed plots, for example:
+``` r
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+visualising_survival(data = data_table, stages = last_observed_stage, remaining_percentage = remaining_percentage, remaining_number = remaining_n)
+```
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+<img src="man/figures/README-visualising_survival() example-1.png" width="100%" />
+
+The distribution of the last observed stages can also be visualised.
+This used the `visualising_distribution()` function which is designed to
+work with the output of the `stage_assigning()` function. This requires
+the specification of the data frame, the column containing the assigned
+stages, and optionally a factor column. If a factor column is specified,
+a new bar will be generated for each factor.
+
+``` r
+
+# No factors
+
+visualising_distribution(data = assigned_stages, stage = last_observed_stage)
+```
+
+<img src="man/figures/README-visualising_distrubution() no factor example-1.png" width="100%" />
+
+``` r
+
+# With factors
+data_with_factor = dplyr::tribble(
+  ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~last_observed_stage, ~AB,
+  1, "01/01/2000", NA, NA, NA, NA, "Stage1", "A",
+  2, "01/01/2000", "02/01/2000", NA, NA, NA, "Stage2", "A",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Stage3", "A",
+  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4", "A",
+  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "A",
+  6, NA, NA, NA, NA, NA, "no_stage_found", "A",
+  1, "01/01/2000", NA, NA, NA, NA, "Stage1", "B",
+  2, "01/01/2000", "02/01/2000", NA, NA, NA, "Stage2", "B",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Stage3", "B",
+  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4", "B",
+  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "B",
+  6, NA, NA, NA, NA, NA, "no_stage_found", "B"
+)
+
+visualising_distribution(data = data_with_factor, stage = last_observed_stage, factor = AB)
+```
+
+<img src="man/figures/README-visualising_distribution() example with factor-1.png" width="100%" />
