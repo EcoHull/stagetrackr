@@ -83,7 +83,7 @@ visualising_distribution(data = assigned_stages, stage = last_observed_stage)
 
 ```
 
-```{r visualising_distribution() example with factor}
+```{r example factorised data}
 
 # With factors
 data_with_factor = dplyr::tribble(
@@ -102,8 +102,10 @@ data_with_factor = dplyr::tribble(
   6, NA, NA, NA, NA, NA, "no_stage_found", "Female"
 )
 
-show(data_with_factor)
+data_with_factor
+```
 
+``` {r visualising_distribution() example with factor}
 visualising_distribution(data = data_with_factor, stage = last_observed_stage, factor = Sex)
 
 ```
