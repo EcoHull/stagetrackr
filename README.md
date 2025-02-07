@@ -153,7 +153,9 @@ show(data_with_factor)
 #> 10     4 01/01/2000 02/01/2000 03/01/20… 04/01… 05/01… Stage5              Fema…
 #> 11     5 01/01/2000 02/01/2000 03/01/20… 04/01… 05/01… Stage5              Fema…
 #> 12     6 <NA>       <NA>       <NA>      <NA>   <NA>   no_stage_found      Fema…
+```
 
+``` r
 visualising_distribution(data = data_with_factor, stage = last_observed_stage, factor = Sex)
 ```
 
