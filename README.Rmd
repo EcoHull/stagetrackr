@@ -55,9 +55,9 @@ assigned_stages = stage_assigning(columns = example_stages, data = example_data)
 show(assigned_stages)
 ```
 
-Following the use of `stage_assigning()` a data table can be created using `last_observed_stage_table()` this functions requires the specifying of the data frame and the column containing the last observed stages and returns information about the stage distribution.
+Following the use of `stage_assigning()` a data table can be created using `last_observed_stage_table()` this functions requires the specifying of the data frame, the column containing the last observed stages and a list of the stages in order and returns information about the stage distribution.
 
-This function is designed to work with the output of `assigned_stages()` but will alwo work with any dataset with one row per individual and a column spefying final recorded developmental stage.
+This function is designed to work with the output of `assigned_stages()` but will alwo work with any dataset with one row per individual and a column specifying final recorded developmental stage.
 
 ```{r stage_assigning_example}
 

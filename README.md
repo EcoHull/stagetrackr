@@ -65,12 +65,13 @@ show(assigned_stages)
 
 Following the use of `stage_assigning()` a data table can be created
 using `last_observed_stage_table()` this functions requires the
-specifying of the data frame and the column containing the last observed
-stages and returns information about the stage distribution.
+specifying of the data frame, the column containing the last observed
+stages and a list of the stages in order and returns information about
+the stage distribution.
 
 This function is designed to work with the output of `assigned_stages()`
 but will alwo work with any dataset with one row per individual and a
-column spefying final recorded developmental stage.
+column specifying final recorded developmental stage.
 
 ``` r
 
@@ -78,7 +79,7 @@ data_table = last_observed_stage_table(data = assigned_stages, last_observed_sta
 show(data_table)
 #> # A tibble: 5 × 6
 #>   last_observed_stage     n percentage cumulative remaining_n
-#>   <chr>               <int>      <dbl>      <int>       <int>
+#>   <fct>               <int>      <dbl>      <int>       <int>
 #> 1 Stage1                  1         20          1           5
 #> 2 Stage2                  1         20          2           4
 #> 3 Stage3                  1         20          3           3
