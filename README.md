@@ -111,7 +111,7 @@ a new bar will be generated for each factor.
 
 ``` r
 
-# No factors
+# No factor visualisation
 
 visualising_distribution(data = assigned_stages, stage = last_observed_stage)
 ```

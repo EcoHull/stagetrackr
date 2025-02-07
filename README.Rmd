@@ -75,7 +75,7 @@ visualising_survival(data = data_table, stages = last_observed_stage, remaining_
 
 The distribution of the last observed stages can also be visualised. This used the `visualising_distribution()` function which is designed to work with the output of the `stage_assigning()` function. This requires the specification of the data frame, the column containing the assigned stages, and optionally a factor column. If a factor column is specified, a new bar will be generated for each factor.
 
-```{r visualising_distrubution_no_factor_example}
+```{r visualising_distrubution_no_factor_example, fig.height=6, fig.width=5}
 
 # No factors
 
