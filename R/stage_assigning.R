@@ -59,7 +59,6 @@ last_observed_stage_table = function(data, last_observed_stage, stages) {
 
   n_total = nrow(data)
 
-
   table = data |>
     dplyr::group_by(last_observed_stage) |>
     dplyr::count(name = "n") |>
