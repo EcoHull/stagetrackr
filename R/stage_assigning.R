@@ -29,7 +29,8 @@ stage_assigning <- function(columns, data) {
           "no_stage_found"
         }
       })
-    )
+    ) |>
+    dplyr::mutate(last_observed_stage = factor(last_observed_stage, levels = columns))
 }
 
 #' Generated data table for observed stages
