@@ -12,3 +12,12 @@ time_spanr = function(data, stages) {
   }
   return(data)
 }
+
+spanr_visualiation = function(data, cols) {
+
+  tidyr::pivot_longer(data, cols = cols, names_to = "stage", values_to = "time_span")
+
+  plot = ggplot2::ggplot(data, aes(x = stage, y = time_span)) +
+    ggplot2::geom_boxplot()
+  return(plot)
+}
