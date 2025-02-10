@@ -15,6 +15,8 @@ time_spanr = function(data, stages) {
 
 spanr_visualiation = function(data, cols, factor = FALSE, stage = stage, time_span = time_span) {
 
+  factor_status = deparse(substitute(factor))
+
   data = tidyr::pivot_longer(data, cols = cols, names_to = "stage", values_to = "time_span")
 
   print(data)
@@ -23,5 +25,12 @@ spanr_visualiation = function(data, cols, factor = FALSE, stage = stage, time_sp
     ggplot2::geom_boxplot(ggplot2::aes(fill = {{factor}})) +
     ggplot2::labs(y = "Time Span", x = "Developmental Stage") +
     ggplot2::theme_classic()
+
+
+  if (factor_status == "FALSE") {
+    plot = plot +
+      ggplot2::theme(legend.position = "none") +
+      ggplot2::scale_fill_manual(values = "grey")
+  }
   plot
 }
