@@ -2,7 +2,7 @@ Package: stagetrackr
 Title: Provides a range of tools for working with data from species with multiple distinct developmental stages
 Version: 0.0.0.9000
 Authors@R: 
-    person("Matthew", "Chambers", , "matthewchambersuk@gmail.com", role = c("aut", "cre"))
+    person("Matthew", "Chambers", , "matthewchambersuk@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0009-0003-9614-3291"))
 Description: Data handling package which allows for easily exploting data relating to developmental stage tracking.
 License: MIT + file LICENSE
 Encoding: UTF-8
