@@ -19,8 +19,6 @@ spanr_visualiation = function(data, cols, factor = FALSE, stage = stage, time_sp
 
   data = tidyr::pivot_longer(data, cols = cols, names_to = "stage", values_to = "time_span")
 
-  print(data)
-
   plot = ggplot2::ggplot(data, ggplot2::aes(x = {{stage}}, y = {{time_span}})) +
     ggplot2::geom_boxplot(ggplot2::aes(fill = {{factor}})) +
     ggplot2::labs(y = "Time Span", x = "Developmental Stage") +
