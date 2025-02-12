@@ -13,7 +13,7 @@ time_spanr = function(data, stages) {
   return(data)
 }
 
-spanr_visualiation = function(data, cols, factor = FALSE, stage = stage, time_span = time_span) {
+visualising_time_span = function(data, cols, factor = FALSE, stage = stage, time_span = time_span) {
 
   factor_status = deparse(substitute(factor))
 
