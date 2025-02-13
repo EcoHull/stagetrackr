@@ -37,7 +37,7 @@ test_that("Checking final_observed_stage_tabe generation", {
   stage_table[["last_observed_stage"]] = factor(stage_table[["last_observed_stage"]], levels = example_stages)
 
   data = stage_assigning(data = example_data, columns = example_stages)
-  expect_equal(last_observed_stage_table(data, "last_observed_stage"), stage_table)
+  expect_equal(last_stage_table(data, "last_observed_stage"), stage_table)
 
 })
 
