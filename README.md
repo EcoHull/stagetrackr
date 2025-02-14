@@ -65,10 +65,10 @@ show(assigned_stages)
 ```
 
 Following the use of `stage_assigning()` a data table can be created
-using `last_observed_stage_table()` this functions requires the
-specifying of the data frame, the column containing the last observed
-stages and a list of the stages in order and returns information about
-the stage distribution.
+using `last_stage_table()` this functions requires the specifying of the
+data frame, the column containing the last observed stages and a list of
+the stages in order and returns information about the stage
+distribution.
 
 This function is designed to work with the output of `assigned_stages()`
 but will alwo work with any dataset with one row per individual and a
@@ -76,7 +76,7 @@ column specifying final recorded developmental stage.
 
 ``` r
 
-data_table = last_observed_stage_table(data = assigned_stages, last_observed_stage = "last_observed_stage")
+data_table = last_stage_table(data = assigned_stages, last_observed_stage = "last_observed_stage")
 show(data_table)
 #> # A tibble: 5 × 6
 #>   last_observed_stage     n percentage cumulative remaining_n
@@ -90,9 +90,9 @@ show(data_table)
 ```
 
 The `visualisig_survival()` function is designed to work with the output
-of `last_observed_stage_table()`. It requires the specification of the
-data frame, remaining percentage column and optionally the remaining
-number column (if it is not provided it will not show the N value). This
+of `last_stage_table()`. It requires the specification of the data
+frame, remaining percentage column and optionally the remaining number
+column (if it is not provided it will not show the N value). This
 functions generates a bar chart with a bar for each developmental stage
 providing details of the remaining percentage (and optionally the N
 remaining) at each stage of development.
