@@ -162,3 +162,105 @@ visualising_distribution(data = data_with_factor, stage = last_observed_stage, f
 ```
 
 <img src="man/figures/README-visualising_distribution_example_with_factor-1.png" width="100%" />
+
+### Time span analysis
+
+For development time analysis first the data must be formatted. In order
+to do this it must first be handled as a date. This is done using
+`time_formatr` which requires a data frame, column and time format
+specification, this function uses the as.Date() function, this
+determines the specification required.
+
+``` r
+
+example_data = dplyr::tribble(
+  ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~Sex,
+  1, "01/01/2000", NA, NA, NA, NA, "Male",
+  2, "01/01/2000", "03/01/2000", NA, NA, NA, "Male",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Male",
+  4, "01/01/2000", "04/01/2000", "05/01/2000", "06/01/2000", NA, "Male",
+  5, "01/01/2000", "02/01/2000", "04/01/2000", "07/01/2000", "10/01/2000", "Male",
+  6, NA, NA, NA, NA, NA, "Female",
+  7, "01/01/2000", NA, NA, NA, NA, "Female",
+  8, "01/01/2000", "04/01/2000", NA, NA, NA, "Female",
+  9, "01/01/2000", "03/01/2000", "05/01/2000", "09/01/2000", "12/01/2000", "Female",
+  10, "01/01/2000", "05/01/2000", "06/01/2000", "07/01/2000", "11/01/2000", "Female"
+)
+
+formatted_time = time_formatr(example_data, example_stages, "%d/%m/%Y")
+show(formatted_time)
+#> # A tibble: 10 × 7
+#>       ID Stage1     Stage2     Stage3     Stage4     Stage5     Sex   
+#>    <dbl> <date>     <date>     <date>     <date>     <date>     <chr> 
+#>  1     1 2000-01-01 NA         NA         NA         NA         Male  
+#>  2     2 2000-01-01 2000-01-03 NA         NA         NA         Male  
+#>  3     3 2000-01-01 2000-01-02 2000-01-03 NA         NA         Male  
+#>  4     4 2000-01-01 2000-01-04 2000-01-05 2000-01-06 NA         Male  
+#>  5     5 2000-01-01 2000-01-02 2000-01-04 2000-01-07 2000-01-10 Male  
+#>  6     6 NA         NA         NA         NA         NA         Female
+#>  7     7 2000-01-01 NA         NA         NA         NA         Female
+#>  8     8 2000-01-01 2000-01-04 NA         NA         NA         Female
+#>  9     9 2000-01-01 2000-01-03 2000-01-05 2000-01-09 2000-01-12 Female
+#> 10    10 2000-01-01 2000-01-05 2000-01-06 2000-01-07 2000-01-11 Female
+```
+
+Following formatting, time_spanr() can be used. This function takes the
+data frame and stages specified in a list and returns the time
+difference between each stage for each row.
+
+``` r
+
+time_span_data = time_spanr(formatted_time, example_stages)
+show(time_span_data)
+#> # A tibble: 10 × 11
+#>       ID Stage1     Stage2     Stage3     Stage4     Stage5     Sex   
+#>    <dbl> <date>     <date>     <date>     <date>     <date>     <chr> 
+#>  1     1 2000-01-01 NA         NA         NA         NA         Male  
+#>  2     2 2000-01-01 2000-01-03 NA         NA         NA         Male  
+#>  3     3 2000-01-01 2000-01-02 2000-01-03 NA         NA         Male  
+#>  4     4 2000-01-01 2000-01-04 2000-01-05 2000-01-06 NA         Male  
+#>  5     5 2000-01-01 2000-01-02 2000-01-04 2000-01-07 2000-01-10 Male  
+#>  6     6 NA         NA         NA         NA         NA         Female
+#>  7     7 2000-01-01 NA         NA         NA         NA         Female
+#>  8     8 2000-01-01 2000-01-04 NA         NA         NA         Female
+#>  9     9 2000-01-01 2000-01-03 2000-01-05 2000-01-09 2000-01-12 Female
+#> 10    10 2000-01-01 2000-01-05 2000-01-06 2000-01-07 2000-01-11 Female
+#> # ℹ 4 more variables: `Stage1-Stage2` <drtn>, `Stage2-Stage3` <drtn>,
+#> #   `Stage3-Stage4` <drtn>, `Stage4-Stage5` <drtn>
+```
+
+The result of this function is a new column for the time between each
+sequential developmental stage with a new column for each developmental
+period span. In order to visualise this distribution,
+`visualising_time_span()` can be used. This function takes the data
+frame, timespan columns and optionally a factor.
+
+If a factor is not specified the development plot will show the
+distribution across all rows.
+
+``` r
+
+names = c("Stage1-Stage2", "Stage2-Stage3", "Stage3-Stage4", "Stage4-Stage5")
+
+visualising_time_span(data = time_span_data, cols = names)
+#> Don't know how to automatically pick scale for object of type <difftime>.
+#> Defaulting to continuous.
+#> Warning: Removed 21 rows containing non-finite outside the scale range
+#> (`stat_boxplot()`).
+```
+
+<img src="man/figures/README-time_spanr_example-1.png" width="100%" />
+
+If a factor is specified a box will be shown for each variable fo the
+factor at each stage.
+
+``` r
+
+visualising_time_span(data = time_span_data, cols = names, factor = Sex)
+#> Don't know how to automatically pick scale for object of type <difftime>.
+#> Defaulting to continuous.
+#> Warning: Removed 21 rows containing non-finite outside the scale range
+#> (`stat_boxplot()`).
+```
+
+<img src="man/figures/README-time_spanr_factor-1.png" width="100%" />

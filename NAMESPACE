@@ -2,6 +2,9 @@
 
 export(last_stage_table)
 export(stage_assigning)
+export(time_formatr)
+export(time_spanr)
 export(visualising_distribution)
 export(visualising_survival)
+export(visualising_time_span)
 import(ggplot2)

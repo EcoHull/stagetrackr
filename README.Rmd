@@ -109,3 +109,56 @@ show(data_with_factor)
 visualising_distribution(data = data_with_factor, stage = last_observed_stage, factor = Sex)
 
 ```
+
+### Time span analysis
+
+For development time analysis first the data must be formatted. In order to do this it must first be handled as a date. This is done using `time_formatr` which requires a data frame, column and time format specification, this function uses the as.Date() function, this determines the specification required.
+
+```{r time_formatr}
+
+example_data = dplyr::tribble(
+  ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~Sex,
+  1, "01/01/2000", NA, NA, NA, NA, "Male",
+  2, "01/01/2000", "03/01/2000", NA, NA, NA, "Male",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "Male",
+  4, "01/01/2000", "04/01/2000", "05/01/2000", "06/01/2000", NA, "Male",
+  5, "01/01/2000", "02/01/2000", "04/01/2000", "07/01/2000", "10/01/2000", "Male",
+  6, NA, NA, NA, NA, NA, "Female",
+  7, "01/01/2000", NA, NA, NA, NA, "Female",
+  8, "01/01/2000", "04/01/2000", NA, NA, NA, "Female",
+  9, "01/01/2000", "03/01/2000", "05/01/2000", "09/01/2000", "12/01/2000", "Female",
+  10, "01/01/2000", "05/01/2000", "06/01/2000", "07/01/2000", "11/01/2000", "Female"
+)
+
+formatted_time = time_formatr(example_data, example_stages, "%d/%m/%Y")
+show(formatted_time)
+```
+
+Following formatting, time_spanr() can be used. This function takes the data frame and stages specified in a list and returns the time difference between each stage for each row.
+
+```{r time_spanr}
+
+time_span_data = time_spanr(formatted_time, example_stages)
+show(time_span_data)
+
+```
+
+The result of this function is a new column for the time between each sequential developmental stage with a new column for each developmental period span. In order to visualise this distribution, `visualising_time_span()` can be used. This function takes the data frame, timespan columns and optionally a factor.
+
+If a factor is not specified the development plot will show the distribution across all rows.
+
+```{r time_spanr_example}
+
+names = c("Stage1-Stage2", "Stage2-Stage3", "Stage3-Stage4", "Stage4-Stage5")
+
+visualising_time_span(data = time_span_data, cols = names)
+
+```
+
+If a factor is specified a box will be shown for each variable fo the factor at each stage.
+
+```{r time_spanr_factor}
+
+visualising_time_span(data = time_span_data, cols = names, factor = Sex)
+
+```
