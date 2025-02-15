@@ -9,7 +9,7 @@ time_spanr(data, stages)
 \arguments{
 \item{data}{Data frame containing the data.}
 
-\item{stages}{List of stages containing rows of formatted dates.}
+\item{stages}{List of stages containing rows of formatted dates such as those produced by time_formatr().}
 }
 \value{
 Columns of time differences between sequential stages

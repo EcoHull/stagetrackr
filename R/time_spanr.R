@@ -28,7 +28,7 @@ time_formatr = function (data, stages, format) {
 #' Generated time span data between developmental stages
 #'
 #' @param data Data frame containing the data.
-#' @param stages List of stages containing rows of formatted dates.
+#' @param stages List of stages containing rows of formatted dates such as those produced by time_formatr().
 #'
 #' @returns Columns of time differences between sequential stages
 #' @export
@@ -58,7 +58,7 @@ time_spanr = function(data, stages) {
 #' Visualising time span distributions
 #'
 #' @param data Data frame containing timespan data columns.
-#' @param cols A list of the columns containing timespan data.
+#' @param cols A list of the columns containing timespan data such as thos produced by time_spanr().
 #' @param factor (Optional) A factor, variables will be represented as different boxes in the produced graph.
 #' @param stage Currently predetermined
 #' @param time_span Currently predetermined

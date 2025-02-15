@@ -15,7 +15,7 @@ visualising_time_span(
 \arguments{
 \item{data}{Data frame containing timespan data columns.}
 
-\item{cols}{A list of the columns containing timespan data.}
+\item{cols}{A list of the columns containing timespan data such as thos produced by time_spanr().}
 
 \item{factor}{(Optional) A factor, variables will be represented as different boxes in the produced graph.}
 
