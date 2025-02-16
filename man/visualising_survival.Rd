@@ -8,7 +8,8 @@ visualising_survival(
   data,
   stages,
   remaining_percentage,
-  remaining_number = NULL
+  remaining_number = NULL,
+  factor = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ visualising_survival(
 \item{remaining_percentage}{Column specifying the percentage remaining at each developmental stage}
 
 \item{remaining_number}{Column representing the number of individuals remaining at each stage (optional)}
+
+\item{factor}{(Optional) Factor to seperate the columns based on}
 }
 \value{
 ggplot bar graph with information about percentage survival (and N numbers if provided) at each stage.
@@ -35,6 +38,23 @@ stage_table = dplyr::tribble(
   "Stage4", 1, (1/5)*100, 4, 2, 40,
   "Stage5", 1, (1/5)*100, 5, 1, 20
 )
+
 visualising_survival(stage_table, last_observed_stage, remaining_percentage, remaining_n)
 visualising_survival(stage_table, last_observed_stage, remaining_percentage)
+
+factor_table = dplyr::tribble(
+  ~last_observed_stage, ~n, ~percentage, ~cumulative, ~remaining_n, ~remaining_per, ~sex,
+  "Stage1", 1, (1/5)*100, 1, 5, 100, "M",
+  "Stage2", 1, (1/5)*100, 2, 4, 80, "M",
+  "Stage3", 1, (1/5)*100, 3, 3, 60, "M",
+  "Stage4", 1, (1/5)*100, 4, 2, 40, "M",
+  "Stage5", 1, (1/5)*100, 5, 1, 20, "M",
+  "Stage1", 1, (1/5)*100, 1, 5, 100, "F",
+  "Stage2", 1, (1/5)*100, 2, 4, 80, "F",
+  "Stage3", 1, (1/5)*100, 2, 4, 80, "F",
+  "Stage4", 1, (1/5)*100, 3, 3, 60, "F",
+  "Stage5", 1, (1/5)*100, 5, 1, 20, "F"
+)
+
+visualising_survival(factor_table, last_observed_stage, remaining_per, remaining_n, factor = sex)
 }

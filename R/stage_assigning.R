@@ -92,6 +92,7 @@ stage_data = function(data, last_observed_stage) {
 #' @param stages Column specifying the name of each stage
 #' @param remaining_percentage Column specifying the percentage remaining at each developmental stage
 #' @param remaining_number Column representing the number of individuals remaining at each stage (optional)
+#' @param factor (Optional) Factor to seperate the columns based on
 #'
 #' @returns ggplot bar graph with information about percentage survival (and N numbers if provided) at each stage.
 #' @export
@@ -105,22 +106,54 @@ stage_data = function(data, last_observed_stage) {
 #'   "Stage4", 1, (1/5)*100, 4, 2, 40,
 #'   "Stage5", 1, (1/5)*100, 5, 1, 20
 #' )
+#'
 #' visualising_survival(stage_table, last_observed_stage, remaining_percentage, remaining_n)
 #' visualising_survival(stage_table, last_observed_stage, remaining_percentage)
-visualising_survival = function(data, stages, remaining_percentage, remaining_number = NULL) {
+#'
+#' factor_table = dplyr::tribble(
+#'   ~last_observed_stage, ~n, ~percentage, ~cumulative, ~remaining_n, ~remaining_per, ~sex,
+#'   "Stage1", 1, (1/5)*100, 1, 5, 100, "M",
+#'   "Stage2", 1, (1/5)*100, 2, 4, 80, "M",
+#'   "Stage3", 1, (1/5)*100, 3, 3, 60, "M",
+#'   "Stage4", 1, (1/5)*100, 4, 2, 40, "M",
+#'   "Stage5", 1, (1/5)*100, 5, 1, 20, "M",
+#'   "Stage1", 1, (1/5)*100, 1, 5, 100, "F",
+#'   "Stage2", 1, (1/5)*100, 2, 4, 80, "F",
+#'   "Stage3", 1, (1/5)*100, 2, 4, 80, "F",
+#'   "Stage4", 1, (1/5)*100, 3, 3, 60, "F",
+#'   "Stage5", 1, (1/5)*100, 5, 1, 20, "F"
+#' )
+#'
+#' visualising_survival(factor_table, last_observed_stage, remaining_per, remaining_n, factor = sex)
+visualising_survival = function(data, stages, remaining_percentage, remaining_number = NULL, factor = FALSE) {
   remaining_per <- deparse(substitute(remaining_percentage))
   remaining_num <- deparse(substitute(remaining_number))
+  factor_status = deparse(substitute(factor))
 
-  plot = ggplot2::ggplot(data, ggplot2::aes(x = {{stages}}, y = {{remaining_percentage}})) +
-      ggplot2::geom_col(colour = "black", fill = "lightgrey") +
-      ggplot2::geom_text(ggplot2::aes(label = paste0(.data[[remaining_per]], "%")), # Access with []
+  if (factor_status == "FALSE") {
+    label_position = ggplot2::position_identity()
+  } else {
+    label_position = ggplot2::position_dodge2(width = 0.9, preserve = "single")
+  }
+
+  plot = ggplot2::ggplot(data, ggplot2::aes(x = {{stages}}, y = {{remaining_percentage}}, fill = {{factor}})) +
+      ggplot2::geom_col(colour = "black", position = "dodge") +
+      ggplot2::geom_text(ggplot2::aes(label = paste0(.data[[remaining_per]], "%")), position = label_position, # Access with []
                          y = 0, vjust = -0.5) +
       ggplot2::theme_classic()
 
   if (remaining_num != "NULL") {
-    plot = plot + ggplot2::geom_text(ggplot2::aes(label = paste0("( N = ", .data[[remaining_num]], ")")),
+    plot = plot + ggplot2::geom_text(ggplot2::aes(label = paste0("( N = ", .data[[remaining_num]], ")")), position = label_position,
       y = 0, vjust = -2.5)
   }
+
+  if (factor_status == "FALSE") {
+    plot = plot +
+
+      ggplot2::theme(legend.position = "none") +
+      ggplot2::scale_fill_manual(values = "grey")
+  }
+
   return(plot)
 }
 
@@ -128,7 +161,7 @@ visualising_survival = function(data, stages, remaining_percentage, remaining_nu
 #'
 #' @param data Data frame containing a column with the last observed stage such as those produced by stage_assigning()
 #' @param stage The name of the column containing the final observed stage
-#' @param factor (Optional - Set factor variables, each unique variable will generate a seperate bar)
+#' @param factor (Optional) Set factor variables, each unique variable will generate a separate bar
 #'
 #' @returns ggplot stacked bar graph showing the distributions of the final observed stage
 #' @export

@@ -11,7 +11,7 @@ visualising_distribution(data, stage, factor = FALSE)
 
 \item{stage}{The name of the column containing the final observed stage}
 
-\item{factor}{(Optional - Set factor variables, each unique variable will generate a seperate bar)}
+\item{factor}{(Optional) Set factor variables, each unique variable will generate a separate bar}
 }
 \value{
 ggplot stacked bar graph showing the distributions of the final observed stage
