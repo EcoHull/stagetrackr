@@ -98,7 +98,6 @@ visualising_time_span = function(data, cols, factor = FALSE, stage = stage, time
     ggplot2::labs(y = "Time Span", x = "Developmental Stage") +
     ggplot2::theme_classic()
 
-
   if (factor_status == "FALSE") {
     plot = plot +
       ggplot2::theme(legend.position = "none") +

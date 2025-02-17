@@ -140,6 +140,7 @@ visualising_survival = function(data, stages, remaining_percentage, remaining_nu
       ggplot2::geom_col(colour = "black", position = "dodge") +
       ggplot2::geom_text(ggplot2::aes(label = paste0(.data[[remaining_per]], "%")), position = label_position, # Access with []
                          y = 0, vjust = -0.5) +
+      ggplot2::labs(x = "Remaining percentage", y = "Last observed stage") +
       ggplot2::theme_classic()
 
   if (remaining_num != "NULL") {
@@ -149,7 +150,6 @@ visualising_survival = function(data, stages, remaining_percentage, remaining_nu
 
   if (factor_status == "FALSE") {
     plot = plot +
-
       ggplot2::theme(legend.position = "none") +
       ggplot2::scale_fill_manual(values = "grey")
   }
