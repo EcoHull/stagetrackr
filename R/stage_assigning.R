@@ -3,7 +3,7 @@
 #' @param columns A character vector specifying the column names of each stage in order.
 #' @param data The data frame containing information of date an individual reached a specific developmental stage with one row for each individual.
 #'
-#' @returns A new column "last_observed_stage" which contains the last stage found with a date in it.
+#' @returns A new column "last_observed_stage" which contains the last stage found.
 #' @export
 #'
 #' @examples
