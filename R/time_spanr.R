@@ -4,7 +4,7 @@
 #' @param stages The columns containing the stage data.
 #' @param format  The format of the dates in the data frame.
 #'
-#' @returns A dataframe with foramtted dates.
+#' @returns A data frame with formatted dates.
 #' @export
 #'
 #' @examples
@@ -58,7 +58,7 @@ time_spanr = function(data, stages) {
 #' Visualising time span distributions
 #'
 #' @param data Data frame containing timespan data columns.
-#' @param cols A list of the columns containing timespan data such as thos produced by time_spanr().
+#' @param cols A list of the columns containing timespan data such as those produced by time_spanr().
 #' @param factor (Optional) A factor, variables will be represented as different boxes in the produced graph.
 #' @param stage Currently predetermined
 #' @param time_span Currently predetermined
