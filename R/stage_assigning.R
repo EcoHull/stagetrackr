@@ -93,6 +93,7 @@ stage_data = function(data, last_observed_stage) {
 #' @param remaining_percentage Column specifying the percentage remaining at each developmental stage
 #' @param remaining_number Column representing the number of individuals remaining at each stage (optional)
 #' @param factor (Optional) Factor to seperate the columns based on
+#' @param dp Number of decimal points to display the percentage until
 #'
 #' @returns ggplot bar graph with information about percentage survival (and N numbers if provided) at each stage.
 #' @export
@@ -125,7 +126,7 @@ stage_data = function(data, last_observed_stage) {
 #' )
 #'
 #' visualising_survival(factor_table, last_observed_stage, remaining_per, remaining_n, factor = sex)
-visualising_survival = function(data, stages, remaining_percentage, remaining_number = NULL, factor = FALSE) {
+visualising_survival = function(data, stages, remaining_percentage, remaining_number = NULL, factor = FALSE, dp = 2) {
   remaining_per <- deparse(substitute(remaining_percentage))
   remaining_num <- deparse(substitute(remaining_number))
   factor_status = deparse(substitute(factor))
@@ -138,7 +139,7 @@ visualising_survival = function(data, stages, remaining_percentage, remaining_nu
 
   plot = ggplot2::ggplot(data, ggplot2::aes(x = {{stages}}, y = {{remaining_percentage}}, fill = {{factor}})) +
       ggplot2::geom_col(colour = "black", position = "dodge") +
-      ggplot2::geom_text(ggplot2::aes(label = paste0(.data[[remaining_per]], "%")), position = label_position, # Access with []
+      ggplot2::geom_text(ggplot2::aes(label = paste0(round(.data[[remaining_per]], dp), "%")), position = label_position, # Access with []
                          y = 0, vjust = -0.5) +
       ggplot2::labs(x = "Remaining percentage", y = "Last observed stage") +
       ggplot2::theme_classic()

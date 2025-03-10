@@ -14,7 +14,7 @@ time_formatr(data, stages, format)
 \item{format}{The format of the dates in the data frame.}
 }
 \value{
-A dataframe with foramtted dates.
+A data frame with formatted dates.
 }
 \description{
 Converts the type of columns to dates

@@ -9,7 +9,8 @@ visualising_survival(
   stages,
   remaining_percentage,
   remaining_number = NULL,
-  factor = FALSE
+  factor = FALSE,
+  dp = 2
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ visualising_survival(
 \item{remaining_number}{Column representing the number of individuals remaining at each stage (optional)}
 
 \item{factor}{(Optional) Factor to seperate the columns based on}
+
+\item{dp}{Number of decimal points to display the percentage until}
 }
 \value{
 ggplot bar graph with information about percentage survival (and N numbers if provided) at each stage.

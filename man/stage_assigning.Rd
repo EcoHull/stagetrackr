@@ -12,7 +12,7 @@ stage_assigning(columns, data)
 \item{data}{The data frame containing information of date an individual reached a specific developmental stage with one row for each individual.}
 }
 \value{
-A new column "last_observed_stage" which contains the last stage found with a date in it.
+A new column "last_observed_stage" which contains the last stage found.
 }
 \description{
 Finds the latest recorded developmental stage
