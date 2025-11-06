@@ -53,7 +53,7 @@ stage_assigning <- function(columns, data) {
 #'   6, NA, NA, NA, NA, NA, "no_stage_found"
 #' )
 #' last_stage_table(assigned_data, "last_observed_stage")
-last_stage_table = function(data, last_observed_stage, factor = NULL) {
+last_stage_table = function(data, last_observed_stage, stages, factor = NULL) {
   data = subset(data, last_observed_stage != "no_stage_found")
 
   if (!is.null(factor)) {
@@ -64,12 +64,16 @@ last_stage_table = function(data, last_observed_stage, factor = NULL) {
       stage_data(.data, last_observed_stage = "last_observed_stage")
       )
   } else {
-    stage_data(data, "last_observed_stage")
+    stage_data(data, "last_observed_stage", stages)
   }
 }
 
-stage_data = function(data, last_observed_stage) {
+stage_data = function(data, last_observed_stage, stages) {
   data = subset(data, last_observed_stage != "no_stage_found")
+
+  col_names = stages
+
+  names_table = dplyr::tibble(last_observed_stage = stages)
 
   n_total = nrow(data)
 
@@ -82,6 +86,10 @@ stage_data = function(data, last_observed_stage) {
   table$cumulative = cumsum(table[["n"]])
   table$remaining_n = n_total - table[["cumulative"]] + table[["n"]]
   table$remaining_percentage = (table[["remaining_n"]] / n_total) * 100
+
+  table = dplyr::left_join(names_table, table, by = last_observed_stage)
+
+  table = table |> tidyr::fill(cumulative, remaining_n, remaining_percentage)
 
   return(table)
 }

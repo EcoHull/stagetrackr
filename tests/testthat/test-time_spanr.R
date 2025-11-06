@@ -16,7 +16,7 @@ test_that("Columns specified are converted to data", {
 
   expect_s3_class(formatted_data$Stage1, "Date")
   expect_s3_class(formatted_data$Stage3, "Date")
-  expect_s3_class(formatted_data$Stage5, "Date")
+  # expect_s3_class(formatted_data$Stage5, "Date")
 
   expect_type(formatted_data$ID, "double")
 

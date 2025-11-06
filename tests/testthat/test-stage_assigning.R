@@ -34,14 +34,66 @@ test_that("Checking final_observed_stage_tabe generation", {
     "Stage4", 1, (1/5)*100, 4, 2, 40,
     "Stage5", 1, (1/5)*100, 5, 1, 20
   )
-  stage_table[["last_observed_stage"]] = factor(stage_table[["last_observed_stage"]], levels = example_stages)
 
   data = stage_assigning(data = example_data, columns = example_stages)
-  expect_equal(last_stage_table(data, "last_observed_stage"), stage_table)
+  expect_equal(last_stage_table(data, "last_observed_stage", example_stages), stage_table)
 
 })
 
+data_unfilled_stage =  dplyr::tribble(
+    ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5,
+    1, "01/01/2000", NA, NA, NA, NA,
+    2, "01/01/2000", "02/01/2000", NA, NA, NA,
+    3, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "04/01/2000",
+    4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA,
+    5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000",
+    6, NA, NA, NA, NA, NA,
+  )
+
+assigned_data_unfilled_stage = dplyr::tribble(
+  ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~last_observed_stage,
+  1, "01/01/2000", NA, NA, NA, NA, "Stage1",
+  2, "01/01/2000", "02/01/2000", NA, NA, NA, "Stage2",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "04/01/2000", "Stage5",
+  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4",
+  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5",
+  6, NA, NA, NA, NA, NA, "no_stage_found"
+) |> dplyr::mutate(last_observed_stage = factor(last_observed_stage, levels = example_stages))
+
+test_that("Stage assigning works with unfilled stage", {
+  expect_equal(stage_assigning(example_stages, data_unfilled_stage), assigned_data_unfilled_stage)
+})
+
+assigned_table_unfilled_stage = dplyr::tribble(
+  ~last_observed_stage, ~n, ~percentage, ~cumulative, ~remaining_n, ~remaining_percentage,
+  "Stage1", 1, (1/5)*100, 1, 5, 100,
+  "Stage2", 1, (1/5)*100, 2, 4, 80,
+  "Stage3", NA, NA, 2, 4, 80,
+  "Stage4", 1, (1/5)*100, 3, 3, 60,
+  "Stage5", 2, (2/5)*100, 5, 2, 40
+)
+
+test_that("Table creation works with unfilled stage", {
+  expect_equal(last_stage_table(assigned_data_unfilled_stage, "last_observed_stage", example_stages), assigned_table_unfilled_stage)
+})
+
 data_with_factor = dplyr::tribble(
+  ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~AB,
+  1, "01/01/2000", NA, NA, NA, NA, "A",
+  2, "01/01/2000", "02/01/2000", NA, NA, NA, "A",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "A",
+  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "A",
+  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "A",
+  6, NA, NA, NA, NA, NA, "A",
+  1, "01/01/2000", NA, NA, NA, NA, "B",
+  2, "01/01/2000", "02/01/2000", NA, NA, NA, "B",
+  3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA, "B",
+  4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "B",
+  5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "B",
+  6, NA, NA, NA, NA, NA, "B"
+)
+
+assigned_data_with_factor = dplyr::tribble(
   ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5, ~last_observed_stage, ~AB,
   1, "01/01/2000", NA, NA, NA, NA, "Stage1", "A",
   2, "01/01/2000", "02/01/2000", NA, NA, NA, "Stage2", "A",
@@ -55,4 +107,10 @@ data_with_factor = dplyr::tribble(
   4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA, "Stage4", "B",
   5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5", "B",
   6, NA, NA, NA, NA, NA, "no_stage_found", "B"
-)
+) |>
+  dplyr::mutate(last_observed_stage = factor(last_observed_stage, levels = example_stages)) |>
+  dplyr::select(ID, Stage1, Stage2, Stage3, Stage4, Stage5, AB, last_observed_stage)
+
+test_that("stage assigning workd with data containing factors", {
+  expect_equal(stage_assigning(example_stages, data_with_factor), assigned_data_with_factor)
+})
