@@ -62,7 +62,7 @@ last_stage_table = function(data, last_observed_stage, stages, factor = NULL) {
     data |>
       dplyr::group_by(dplyr::across({{factor}})) |>
       dplyr::do(
-      stage_data(.data, last_observed_stage = "last_observed_stage")
+      stage_data(.data, last_observed_stage = "last_observed_stage", stages)
       )
   } else {
     stage_data(data, "last_observed_stage", stages)
