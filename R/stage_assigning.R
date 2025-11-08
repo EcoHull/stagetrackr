@@ -62,7 +62,7 @@ last_stage_table = function(data, last_observed_stage, stages, factor = NULL) {
     data |>
       dplyr::group_by(dplyr::across({{factor}})) |>
       dplyr::do(
-      stage_data(.data, last_observed_stage = "last_observed_stage")
+      stage_data(.data, last_observed_stage = "last_observed_stage", stages)
       )
   } else {
     stage_data(data, "last_observed_stage", stages)
@@ -220,4 +220,16 @@ visualising_distribution = function(data, stage, factor = FALSE) {
       ggplot2::labs(x = "Distribution of last observed stages")
   }
   plot
+}
+
+
+snapshotr = function(data, columns, date, format = "%d/%m/%Y") {
+
+    time_formatr(data, columns) |>
+    mutate(across(
+      all_of(columns),
+    ~ if_else(.x >= as.Date(date, format), NA, .x)
+    )) %>%
+    stage_assigning(columns, .)
+
 }
