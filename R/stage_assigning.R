@@ -18,10 +18,11 @@
 #'   6, NA, NA, NA, NA, NA,
 #' )
 #' stage_assigning(columns = example_stages, data = example_data)
-stage_assigning <- function(columns, data) {
+stage_assigning <- function(columns, data, col_name = "last_observed_stage") {
+
   data |>
     dplyr::mutate(
-      last_observed_stage = (apply(data[columns], 1, function(x) {
+       {{col_name}} := (apply(data[columns], 1, function(x) {
         last_non_na <- utils::tail(x[!is.na(x)], 1)
         if (length(last_non_na) > 0) {
           names(last_non_na)
