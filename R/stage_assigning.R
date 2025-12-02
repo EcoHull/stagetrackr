@@ -22,7 +22,7 @@ stage_assigning <- function(columns, data, col_name = "last_observed_stage") {
 
   data |>
     dplyr::mutate(
-       {{col_name}} := (apply(data[columns], 1, function(x) {
+       "{col_name}" := (apply(data[columns], 1, function(x) {
         last_non_na <- utils::tail(x[!is.na(x)], 1)
         if (length(last_non_na) > 0) {
           names(last_non_na)
@@ -226,11 +226,14 @@ visualising_distribution = function(data, stage, factor = FALSE) {
 
 snapshotr = function(data, columns, date, format = "%d/%m/%Y") {
 
-    time_formatr(data, columns) |>
+  cleaned_col_name = gsub("/", "_", date)
+
+  data |>
     mutate(across(
       all_of(columns),
     ~ if_else(.x >= as.Date(date, format), NA, .x)
     )) %>%
-    stage_assigning(columns, .)
+    stage_assigning(columns, ., col_name = paste0("snapshot_", cleaned_col_name))
+
 
 }
