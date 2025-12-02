@@ -63,25 +63,26 @@ last_stage_table = function(data, last_observed_stage, stages, factor = NULL) {
     data |>
       dplyr::group_by(dplyr::across({{factor}})) |>
       dplyr::do(
-      stage_data(.data, last_observed_stage = "last_observed_stage", stages)
+      stage_data(.data, last_observed_stage = last_observed_stage, stages)
       )
   } else {
-    stage_data(data, "last_observed_stage", stages)
+    stage_data(data, last_observed_stage, stages)
   }
 }
 
 stage_data = function(data, last_observed_stage, stages) {
   cumulative = remaining_n = remaining_percentage = NULL
-  data = subset(data, last_observed_stage != "no_stage_found")
+  data = data |>
+    dplyr::filter(.data[[last_observed_stage]] != "no_stage_found")
 
   col_names = stages
 
-  names_table = dplyr::tibble(last_observed_stage = stages)
+  names_table = dplyr::tibble(!!sym(last_observed_stage) := stages)
 
   n_total = nrow(data)
 
   table = data |>
-    dplyr::group_by(last_observed_stage) |>
+    dplyr::group_by(.data[[last_observed_stage]]) |>
     dplyr::count(name = "n") |>
     dplyr::as_tibble()
 
