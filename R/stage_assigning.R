@@ -55,7 +55,7 @@ stage_assigning <- function(columns, data, col_name = "last_observed_stage") {
 #'   6, NA, NA, NA, NA, NA, "no_stage_found"
 #' )
 #' last_stage_table(assigned_data, "last_observed_stage", example_stages)
-last_stage_table = function(data, last_observed_stage, stages, factor = NULL) {
+last_stage_table = function(data, stages, last_observed_stage = "last_observed_stage", factor = NULL) {
   data = subset(data, last_observed_stage != "no_stage_found")
 
   if (!is.null(factor)) {
