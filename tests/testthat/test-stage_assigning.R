@@ -33,7 +33,8 @@ test_that("Checking final_observed_stage_tabe generation", {
     "Stage3", 1, (1/5)*100, 3, 3, 60,
     "Stage4", 1, (1/5)*100, 4, 2, 40,
     "Stage5", 1, (1/5)*100, 5, 1, 20
-  )
+  ) |>
+    dplyr::mutate(last_observed_stage = factor(last_observed_stage, levels = example_stages))
 
   data = stage_assigning(data = example_data, columns = example_stages)
   expect_equal(last_stage_table(data, example_stages , "last_observed_stage"), stage_table)

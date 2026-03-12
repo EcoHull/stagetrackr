@@ -93,7 +93,8 @@ stage_data = function(data, last_observed_stage, stages) {
   table$remaining_n = n_total - table[["cumulative"]] + table[["n"]]
   table$remaining_percentage = (table[["remaining_n"]] / n_total) * 100
 
-  table = dplyr::left_join(names_table, table, by = last_observed_stage)
+  table = dplyr::left_join(names_table, table, by = last_observed_stage) |>
+    dplyr::mutate(!!sym(last_observed_stage) := factor(.data[[last_observed_stage]], levels = stages))
 
   table = table |> tidyr::fill(cumulative, remaining_n, remaining_percentage)
 
