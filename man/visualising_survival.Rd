@@ -9,7 +9,7 @@ visualising_survival(
   stages,
   remaining_percentage,
   remaining_number = NULL,
-  factor = FALSE,
+  factor = NULL,
   dp = 2
 )
 }
