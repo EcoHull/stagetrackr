@@ -4,12 +4,14 @@
 \alias{stage_assigning}
 \title{Finds the latest recorded developmental stage}
 \usage{
-stage_assigning(columns, data)
+stage_assigning(columns, data, col_name = "last_observed_stage")
 }
 \arguments{
 \item{columns}{A character vector specifying the column names of each stage in order.}
 
 \item{data}{The data frame containing information of date an individual reached a specific developmental stage with one row for each individual.}
+
+\item{col_name}{The name of the column containing the last observed stage}
 }
 \value{
 A new column "last_observed_stage" which contains the last stage found.

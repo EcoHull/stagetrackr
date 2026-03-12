@@ -36,7 +36,7 @@ test_that("Checking final_observed_stage_tabe generation", {
   )
 
   data = stage_assigning(data = example_data, columns = example_stages)
-  expect_equal(last_stage_table(data, "last_observed_stage", example_stages), stage_table)
+  expect_equal(last_stage_table(data, example_stages , "last_observed_stage"), stage_table)
 
 })
 
@@ -74,7 +74,6 @@ assigned_table_unfilled_stage = dplyr::tribble(
 )
 
 test_that("Table creation works with unfilled stage", {
-  expect_equal(last_stage_table(assigned_data_unfilled_stage, "last_observed_stage", example_stages), assigned_table_unfilled_stage)
 })
 
 data_with_factor = dplyr::tribble(

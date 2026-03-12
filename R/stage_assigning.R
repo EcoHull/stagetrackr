@@ -2,6 +2,7 @@
 #'
 #' @param columns A character vector specifying the column names of each stage in order.
 #' @param data The data frame containing information of date an individual reached a specific developmental stage with one row for each individual.
+#' @param col_name The name of the column containing the last observed stage
 #'
 #' @returns A new column "last_observed_stage" which contains the last stage found.
 #' @export
@@ -20,17 +21,19 @@
 #' stage_assigning(columns = example_stages, data = example_data)
 stage_assigning <- function(columns, data, col_name = "last_observed_stage") {
 
-  data |>
+  data = data |>
     dplyr::mutate(
-       "{col_name}" := (apply(data[columns], 1, function(x) {
+       {{col_name}} := (apply(data[columns], 1, function(x) {
         last_non_na <- utils::tail(x[!is.na(x)], 1)
         if (length(last_non_na) > 0) {
           names(last_non_na)
         } else {
           "no_stage_found"
         }
-      })) |> factor(levels = columns)
+      })) |> factor(levels = columns, ordered = TRUE)
     )
+
+  return(data)
 }
 
 #' Generated data table for observed stages
@@ -54,7 +57,7 @@ stage_assigning <- function(columns, data, col_name = "last_observed_stage") {
 #'   5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000", "Stage5",
 #'   6, NA, NA, NA, NA, NA, "no_stage_found"
 #' )
-#' last_stage_table(assigned_data, "last_observed_stage", example_stages)
+#' last_stage_table(assigned_data, example_stages, "last_observed_stage")
 last_stage_table = function(data, stages, last_observed_stage = "last_observed_stage", factor = NULL) {
   data = subset(data, last_observed_stage != "no_stage_found")
 
@@ -138,33 +141,37 @@ stage_data = function(data, last_observed_stage, stages) {
 #' )
 #'
 #' visualising_survival(factor_table, last_observed_stage, remaining_per, remaining_n, factor = sex)
-visualising_survival = function(data, stages, remaining_percentage, remaining_number = NULL, factor = FALSE, dp = 2) {
+visualising_survival = function(data, stages, remaining_percentage, remaining_number = NULL, factor = NULL, dp = 2) {
+  stage_names = deparse(substitute(stages))
   remaining_per <- deparse(substitute(remaining_percentage))
   remaining_num <- deparse(substitute(remaining_number))
   factor_status = deparse(substitute(factor))
 
-  if (factor_status == "FALSE") {
+  if (factor_status == "NULL") {
     label_position = ggplot2::position_identity()
   } else {
     label_position = ggplot2::position_dodge2(width = 0.9, preserve = "single")
   }
 
-  plot = ggplot2::ggplot(data, ggplot2::aes(x = {{stages}}, y = {{remaining_percentage}}, fill = {{factor}})) +
+  plot = ggplot2::ggplot(data, ggplot2::aes(x = .data[[stage_names]], y = {{remaining_percentage}})) +
       ggplot2::geom_col(colour = "black", position = "dodge") +
       ggplot2::geom_text(ggplot2::aes(label = paste0(round(.data[[remaining_per]], dp), "%")), position = label_position, # Access with []
                          y = 0, vjust = -0.5) +
-      ggplot2::labs(x = "Remaining percentage", y = "Last observed stage") +
+      ggplot2::labs(x = "Last observed stage", y = "Remaining percentage") +
       ggplot2::theme_classic()
 
   if (remaining_num != "NULL") {
     plot = plot + ggplot2::geom_text(ggplot2::aes(label = paste0("( N = ", .data[[remaining_num]], ")")), position = label_position,
       y = 0, vjust = -2.5)
   }
+#
 
-  if (factor_status == "FALSE") {
+  if (factor_status == "NULL") {
     plot = plot +
       ggplot2::theme(legend.position = "none") +
       ggplot2::scale_fill_manual(values = "grey")
+  } else {
+    plot = plot + ggplot2::aes(fill = .data[[factor_status]])
   }
 
   return(plot)
@@ -225,16 +232,43 @@ visualising_distribution = function(data, stage, factor = FALSE) {
 }
 
 
+#' Take a snapshot of the stage distribution at a set point in time
+#'
+#' @param data The data frame being analysed
+#' @param columns The columns containing dates of stages
+#' @param date The specific date to test
+#' @param format The format of the date
+#'
+#' @importFrom magrittr '%>%'
+#' @importFrom rlang :=
+#'
+#' @returns A data frame containing the distributions of each stage
+#' @export
+#'
+#' @examples
+#' example_stages = c("Stage1", "Stage2", "Stage3", "Stage4", "Stage5")
+#' example_data = dplyr::tribble(
+#' ~ID, ~ Stage1, ~Stage2, ~Stage3, ~Stage4, ~Stage5,
+#'   1, "01/01/2000", NA, NA, NA, NA,
+#'   2, "01/01/2000", "02/01/2000", NA, NA, NA,
+#'   3, "01/01/2000", "02/01/2000", "03/01/2000", NA, NA,
+#'   4, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", NA,
+#'   5, "01/01/2000", "02/01/2000", "03/01/2000", "04/01/2000", "05/01/2000",
+#'   6, NA, NA, NA, NA, NA,
+#' )
+#'
+#' snapshotr(example_data, example_stages, "03/01/2000", "%d/%m/%Y")
 snapshotr = function(data, columns, date, format = "%d/%m/%Y") {
 
   cleaned_col_name = gsub("/", "_", date)
 
-  data |>
-    mutate(across(
-      all_of(columns),
-    ~ if_else(.x >= as.Date(date, format), NA, .x)
-    )) %>%
-    stage_assigning(columns, ., col_name = paste0("snapshot_", cleaned_col_name))
+  new_col_name = paste0("snapshot_", cleaned_col_name)
 
+  snapshot = data |>
+    dplyr::mutate(dplyr::across(
+      dplyr::all_of(columns),
+    ~ dplyr::if_else(.x >= as.Date(date, format), NA, .x)
+    ))
 
+    stage_assigning(columns, snapshot, col_name = new_col_name)
 }
