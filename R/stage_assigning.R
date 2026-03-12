@@ -142,7 +142,10 @@ stage_data = function(data, last_observed_stage, stages) {
 #'
 #' visualising_survival(factor_table, last_observed_stage, remaining_per, remaining_n, factor = sex)
 visualising_survival = function(data, stages, remaining_percentage, remaining_number = NULL, factor = NULL, dp = 2) {
+<<<<<<< HEAD
   stage_names = deparse(substitute(stages))
+=======
+>>>>>>> f5f30b382a0e185f95817d8e88d3601050c2b336
   remaining_per <- deparse(substitute(remaining_percentage))
   remaining_num <- deparse(substitute(remaining_number))
   factor_status = deparse(substitute(factor))
@@ -165,7 +168,10 @@ visualising_survival = function(data, stages, remaining_percentage, remaining_nu
       y = 0, vjust = -2.5)
   }
 #
+<<<<<<< HEAD
 
+=======
+>>>>>>> f5f30b382a0e185f95817d8e88d3601050c2b336
   if (factor_status == "NULL") {
     plot = plot +
       ggplot2::theme(legend.position = "none") +
