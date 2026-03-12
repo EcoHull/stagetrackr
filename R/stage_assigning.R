@@ -165,7 +165,6 @@ visualising_survival = function(data, stages, remaining_percentage, remaining_nu
       y = 0, vjust = -2.5)
   }
 #
-
   if (factor_status == "NULL") {
     plot = plot +
       ggplot2::theme(legend.position = "none") +
