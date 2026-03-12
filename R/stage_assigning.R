@@ -62,7 +62,6 @@ last_stage_table = function(data, stages, last_observed_stage = "last_observed_s
   data = subset(data, last_observed_stage != "no_stage_found")
 
   if (!is.null(factor)) {
-    print("there is a factor")
     data |>
       dplyr::group_by(dplyr::across({{factor}})) |>
       dplyr::do(
